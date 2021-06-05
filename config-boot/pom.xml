@@ -51,7 +51,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.athingx.athing.aliyun.config</groupId>
-            <artifactId>config-core</artifactId>
+            <artifactId>config-component</artifactId>
             <version>${project.version}</version>
             <exclusions>
                 <exclusion>

@@ -1,4 +1,4 @@
-package com.github.athingx.athing.aliyun.config.core;
+package com.github.athingx.athing.aliyun.config.component;
 
 /**
  * 配置组件参数

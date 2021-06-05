@@ -1,13 +1,13 @@
-package com.github.athingx.athing.aliyun.config.core;
+package com.github.athingx.athing.aliyun.config.component;
 
 import com.github.athingx.athing.aliyun.config.api.Config;
 import com.github.athingx.athing.aliyun.config.api.ConfigApplyListener;
 import com.github.athingx.athing.aliyun.config.api.ConfigThingCom;
 import com.github.athingx.athing.aliyun.config.api.Scope;
-import com.github.athingx.athing.aliyun.config.core.domain.Meta;
-import com.github.athingx.athing.aliyun.config.core.domain.Pull;
-import com.github.athingx.athing.aliyun.config.core.domain.Push;
-import com.github.athingx.athing.aliyun.config.core.util.GsonUtils;
+import com.github.athingx.athing.aliyun.config.component.domain.Meta;
+import com.github.athingx.athing.aliyun.config.component.domain.Pull;
+import com.github.athingx.athing.aliyun.config.component.domain.Push;
+import com.github.athingx.athing.aliyun.config.component.util.GsonUtils;
 import com.github.athingx.athing.aliyun.thing.runtime.ThingRuntime;
 import com.github.athingx.athing.aliyun.thing.runtime.ThingRuntimes;
 import com.github.athingx.athing.aliyun.thing.runtime.executor.ThingExecutor;
@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
-import static com.github.athingx.athing.aliyun.config.core.JsonSerializerImpl.serializer;
+import static com.github.athingx.athing.aliyun.config.component.JsonSerializerImpl.serializer;
 import static com.github.athingx.athing.aliyun.thing.runtime.messenger.alink.ThingReplyImpl.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
 

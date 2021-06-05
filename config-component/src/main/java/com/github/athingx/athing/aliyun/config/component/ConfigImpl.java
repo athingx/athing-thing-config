@@ -1,10 +1,10 @@
-package com.github.athingx.athing.aliyun.config.core;
+package com.github.athingx.athing.aliyun.config.component;
 
 import com.github.athingx.athing.aliyun.config.api.Config;
 import com.github.athingx.athing.aliyun.config.api.Scope;
-import com.github.athingx.athing.aliyun.config.core.domain.Meta;
-import com.github.athingx.athing.aliyun.config.core.util.HttpUtils;
-import com.github.athingx.athing.aliyun.config.core.util.StringUtils;
+import com.github.athingx.athing.aliyun.config.component.domain.Meta;
+import com.github.athingx.athing.aliyun.config.component.util.HttpUtils;
+import com.github.athingx.athing.aliyun.config.component.util.StringUtils;
 import com.github.athingx.athing.aliyun.thing.runtime.executor.ThingExecutor;
 import com.github.athingx.athing.standard.thing.ThingFuture;
 

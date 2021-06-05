@@ -8,7 +8,7 @@
         <artifactId>config</artifactId>
         <version>${revision}</version>
     </parent>
-    <artifactId>config-core</artifactId>
+    <artifactId>config-component</artifactId>
     <name>${project.artifactId}</name>
 
     <dependencies>

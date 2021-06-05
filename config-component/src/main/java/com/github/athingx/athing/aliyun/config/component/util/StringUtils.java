@@ -1,4 +1,4 @@
-package com.github.athingx.athing.aliyun.config.core.util;
+package com.github.athingx.athing.aliyun.config.component.util;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

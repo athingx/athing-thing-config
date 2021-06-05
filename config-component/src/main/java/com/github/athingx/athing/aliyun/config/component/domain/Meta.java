@@ -1,4 +1,4 @@
-package com.github.athingx.athing.aliyun.config.core.domain;
+package com.github.athingx.athing.aliyun.config.component.domain;
 
 import com.google.gson.annotations.SerializedName;
 

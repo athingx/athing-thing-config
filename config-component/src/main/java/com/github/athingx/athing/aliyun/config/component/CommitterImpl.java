@@ -1,4 +1,4 @@
-package com.github.athingx.athing.aliyun.config.core;
+package com.github.athingx.athing.aliyun.config.component;
 
 import com.github.athingx.athing.aliyun.config.api.Committer;
 import com.github.athingx.athing.aliyun.thing.runtime.executor.ThingPromise;

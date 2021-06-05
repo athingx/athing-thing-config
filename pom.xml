@@ -95,7 +95,7 @@
 
     <modules>
         <module>config-api</module>
-        <module>config-core</module>
+        <module>config-component</module>
         <module>config-boot</module>
     </modules>
 

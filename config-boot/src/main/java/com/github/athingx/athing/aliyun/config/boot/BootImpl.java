@@ -1,7 +1,7 @@
 package com.github.athingx.athing.aliyun.config.boot;
 
-import com.github.athingx.athing.aliyun.config.core.ConfigOption;
-import com.github.athingx.athing.aliyun.config.core.DefaultConfigThingCom;
+import com.github.athingx.athing.aliyun.config.component.ConfigOption;
+import com.github.athingx.athing.aliyun.config.component.DefaultConfigThingCom;
 import com.github.athingx.athing.standard.component.ThingCom;
 import com.github.athingx.athing.standard.thing.boot.BootArguments;
 import com.github.athingx.athing.standard.thing.boot.ThingComBoot;
