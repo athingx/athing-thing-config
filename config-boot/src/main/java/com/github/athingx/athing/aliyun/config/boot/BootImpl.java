@@ -1,7 +1,7 @@
 package com.github.athingx.athing.aliyun.config.boot;
 
 import com.github.athingx.athing.aliyun.config.core.ConfigOption;
-import com.github.athingx.athing.aliyun.config.core.ConfigThingComImpl;
+import com.github.athingx.athing.aliyun.config.core.DefaultConfigThingCom;
 import com.github.athingx.athing.standard.component.ThingCom;
 import com.github.athingx.athing.standard.thing.boot.BootArguments;
 import com.github.athingx.athing.standard.thing.boot.ThingComBoot;
@@ -29,7 +29,7 @@ public class BootImpl implements ThingComBoot {
         option.setTimeoutMs(arguments.getArgument(OPT_TIMEOUT, cLong, 3L * 1000 * 60));
 
         // 生成配置组件
-        return new ConfigThingComImpl(option);
+        return new DefaultConfigThingCom(option);
     }
 
 }

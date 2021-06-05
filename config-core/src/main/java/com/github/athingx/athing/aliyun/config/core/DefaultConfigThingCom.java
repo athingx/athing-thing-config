@@ -31,7 +31,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 /**
  * 配置组件实现
  */
-public class ConfigThingComImpl implements ConfigThingCom, Initializing {
+public class DefaultConfigThingCom implements ConfigThingCom, Initializing {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Gson gson = GsonUtils.gson;
@@ -43,7 +43,7 @@ public class ConfigThingComImpl implements ConfigThingCom, Initializing {
     private ThingMessenger messenger;
     private volatile ConfigApplyListener listener;
 
-    public ConfigThingComImpl(ConfigOption option) {
+    public DefaultConfigThingCom(ConfigOption option) {
         this.option = option;
     }
 

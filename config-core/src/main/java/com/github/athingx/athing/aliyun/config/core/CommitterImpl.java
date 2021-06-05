@@ -3,7 +3,7 @@ package com.github.athingx.athing.aliyun.config.core;
 import com.github.athingx.athing.aliyun.config.api.Committer;
 import com.github.athingx.athing.aliyun.thing.runtime.executor.ThingPromise;
 
-public class CommitterImpl implements Committer {
+class CommitterImpl implements Committer {
 
     private final ThingPromise<Void> promise;
 

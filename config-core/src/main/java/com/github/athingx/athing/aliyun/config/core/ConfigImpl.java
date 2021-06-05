@@ -17,7 +17,7 @@ import static java.lang.String.format;
 /**
  * 设备配置实现
  */
-public class ConfigImpl implements Config {
+class ConfigImpl implements Config {
 
     private final Meta meta;
     private final Scope scope;
