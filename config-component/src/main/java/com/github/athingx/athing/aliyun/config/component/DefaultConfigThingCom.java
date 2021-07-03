@@ -77,7 +77,9 @@ public class DefaultConfigThingCom implements ConfigThingCom, Initializing {
                         }
 
                         // 应答成功
-                        promise.trySuccess(new ConfigImpl(reply.getData(), executor, option));
+                        else {
+                            promise.trySuccess(new ConfigImpl(reply.getData(), executor, option));
+                        }
 
                     });
 
