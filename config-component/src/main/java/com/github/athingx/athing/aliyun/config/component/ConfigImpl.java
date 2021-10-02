@@ -5,8 +5,8 @@ import com.github.athingx.athing.aliyun.config.api.Scope;
 import com.github.athingx.athing.aliyun.config.component.domain.Meta;
 import com.github.athingx.athing.aliyun.config.component.util.HttpUtils;
 import com.github.athingx.athing.aliyun.config.component.util.StringUtils;
-import com.github.athingx.athing.aliyun.thing.runtime.executor.ThingExecutor;
-import com.github.athingx.athing.standard.thing.ThingFuture;
+import com.github.athingx.athing.standard.thing.op.executor.ThingExecutor;
+import com.github.athingx.athing.standard.thing.op.executor.ThingFuture;
 
 import java.net.URL;
 import java.util.Objects;

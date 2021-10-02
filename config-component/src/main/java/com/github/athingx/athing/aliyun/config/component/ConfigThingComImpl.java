@@ -10,13 +10,16 @@ import com.github.athingx.athing.aliyun.config.component.domain.Push;
 import com.github.athingx.athing.aliyun.config.component.util.GsonUtils;
 import com.github.athingx.athing.aliyun.thing.runtime.ThingRuntime;
 import com.github.athingx.athing.aliyun.thing.runtime.ThingRuntimes;
-import com.github.athingx.athing.aliyun.thing.runtime.executor.ThingExecutor;
-import com.github.athingx.athing.aliyun.thing.runtime.executor.ThingPromise;
-import com.github.athingx.athing.aliyun.thing.runtime.messenger.ThingMessenger;
-import com.github.athingx.athing.aliyun.thing.runtime.messenger.alink.ThingReplyImpl;
+import com.github.athingx.athing.aliyun.thing.runtime.linker.ThingLinker;
+import com.github.athingx.athing.aliyun.thing.runtime.linker.impl.ThingReplyImpl;
 import com.github.athingx.athing.aliyun.thing.runtime.mqtt.ThingMqtt;
 import com.github.athingx.athing.standard.thing.*;
 import com.github.athingx.athing.standard.thing.boot.Initializing;
+import com.github.athingx.athing.standard.thing.op.ThingReply;
+import com.github.athingx.athing.standard.thing.op.ThingReplyFuture;
+import com.github.athingx.athing.standard.thing.op.executor.ThingExecutor;
+import com.github.athingx.athing.standard.thing.op.executor.ThingFuture;
+import com.github.athingx.athing.standard.thing.op.executor.ThingPromise;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.slf4j.Logger;
@@ -25,13 +28,13 @@ import org.slf4j.LoggerFactory;
 import java.util.Objects;
 
 import static com.github.athingx.athing.aliyun.config.component.JsonSerializerImpl.serializer;
-import static com.github.athingx.athing.aliyun.thing.runtime.messenger.alink.ThingReplyImpl.*;
+import static com.github.athingx.athing.aliyun.thing.runtime.linker.impl.ThingReplyImpl.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * 配置组件实现
  */
-public class DefaultConfigThingCom implements ConfigThingCom, Initializing {
+public class ConfigThingComImpl implements ConfigThingCom, Initializing {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Gson gson = GsonUtils.gson;
@@ -40,10 +43,10 @@ public class DefaultConfigThingCom implements ConfigThingCom, Initializing {
     private Thing thing;
     private ThingMqtt mqtt;
     private ThingExecutor executor;
-    private ThingMessenger messenger;
+    private ThingLinker linker;
     private volatile ConfigApplyListener listener;
 
-    public DefaultConfigThingCom(ConfigOption option) {
+    public ConfigThingComImpl(ConfigOption option) {
         this.option = option;
     }
 
@@ -62,7 +65,7 @@ public class DefaultConfigThingCom implements ConfigThingCom, Initializing {
 
         return executor.promise(promise -> {
 
-            final ThingReplyFuture<Meta> callF = messenger.call(serializer, String.format("/sys/%s/%s/thing/config/get", thing.getProductId(), thing.getThingId()), Pull::new);
+            final ThingReplyFuture<Meta> callF = linker.call(serializer, String.format("/sys/%s/%s/thing/config/get", thing.getProductId(), thing.getThingId()), Pull::new);
             callF.onFailure(promise::acceptFail)
                     .onSuccess(future -> {
 
@@ -93,8 +96,8 @@ public class DefaultConfigThingCom implements ConfigThingCom, Initializing {
 
         this.thing = thing;
         this.mqtt = runtime.getThingMqtt();
-        this.executor = runtime.getThingExecutor();
-        this.messenger = runtime.getThingMessenger();
+        this.linker = runtime.getThingLinker();
+        this.executor = thing.getThingOp().getThingExecutor();
 
         logger.info("{}/config init completed, connect-timeout={}ms;timeout={}ms",
                 thing,
@@ -125,11 +128,11 @@ public class DefaultConfigThingCom implements ConfigThingCom, Initializing {
                     promise.self()
                             .onFailure(future -> {
                                 logger.warn("{}/config apply failure, version={}", thing, meta.getVersion(), future.getException());
-                                messenger.post(serializer, rTopic, failure(token, ALINK_REPLY_PROCESS_ERROR, future.getException().getMessage()));
+                                linker.post(serializer, rTopic, failure(token, ALINK_REPLY_PROCESS_ERROR, future.getException().getMessage()));
                             })
                             .onSuccess(future -> {
                                 logger.info("{}/config apply success, version={}", thing, meta.getVersion());
-                                messenger.post(serializer, rTopic, success(token));
+                                linker.post(serializer, rTopic, success(token));
                             }));
 
             // 配置应用履约
@@ -163,7 +166,7 @@ public class DefaultConfigThingCom implements ConfigThingCom, Initializing {
             );
 
             final String token = reply.getToken();
-            final ThingPromise<ThingReply<Meta>> promise = messenger.reply(token);
+            final ThingPromise<ThingReply<Meta>> promise = linker.reply(token);
             if (null == promise) {
                 return;
             }

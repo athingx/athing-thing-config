@@ -13,9 +13,10 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.2</version>
+            <groupId>com.github.athingx.athing.aliyun</groupId>
+            <artifactId>athing-aliyun-thing-runtime</artifactId>
+            <version>${athing.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.athingx.athing.aliyun.config</groupId>
@@ -23,9 +24,9 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.athingx.athing.aliyun</groupId>
-            <artifactId>athing-aliyun-thing-runtime</artifactId>
-            <version>${athing.version}</version>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.2</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

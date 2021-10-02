@@ -11,6 +11,6 @@ public class GsonUtils {
     /**
      * Gson
      */
-    public static Gson gson = new GsonBuilder().create();
+    public static final Gson gson = new GsonBuilder().create();
 
 }

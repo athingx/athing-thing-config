@@ -1,6 +1,6 @@
 package com.github.athingx.athing.aliyun.config.api;
 
-import com.github.athingx.athing.standard.thing.ThingFuture;
+import com.github.athingx.athing.standard.thing.op.executor.ThingFuture;
 
 /**
  * 设备配置

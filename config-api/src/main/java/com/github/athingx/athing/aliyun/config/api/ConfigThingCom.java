@@ -1,7 +1,7 @@
 package com.github.athingx.athing.aliyun.config.api;
 
 import com.github.athingx.athing.standard.component.ThingCom;
-import com.github.athingx.athing.standard.thing.ThingFuture;
+import com.github.athingx.athing.standard.thing.op.executor.ThingFuture;
 
 /**
  * 配置组件

@@ -1,7 +1,7 @@
 package com.github.athingx.athing.aliyun.config.component;
 
 import com.github.athingx.athing.aliyun.config.api.Committer;
-import com.github.athingx.athing.aliyun.thing.runtime.executor.ThingPromise;
+import com.github.athingx.athing.standard.thing.op.executor.ThingPromise;
 
 class CommitterImpl implements Committer {
 

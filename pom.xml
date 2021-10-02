@@ -96,7 +96,6 @@
     <modules>
         <module>config-api</module>
         <module>config-component</module>
-        <module>config-boot</module>
     </modules>
 
 </project>
