@@ -9,6 +9,9 @@
 *.iml
 target/
 
+## for maven
+.flattened-pom.xml
+
 # Package Files #
 *.jar
 *.war
