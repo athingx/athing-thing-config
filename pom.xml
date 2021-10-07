@@ -94,8 +94,7 @@
     </build>
 
     <modules>
-        <module>config-api</module>
-        <module>config-component</module>
+        <module>config-thing</module>
     </modules>
 
 </project>
