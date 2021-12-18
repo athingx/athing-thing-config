@@ -1,6 +1,7 @@
 #!/bin/bash
 
-projects[i++]="com.github.athingx.athing.aliyun.config:config-thing"
+projects[i++]="com.github.athingx.athing.aliyun:config-thing"
+projects[i++]="com.github.athingx.athing.aliyun:config-thing-impl"
 
 mvn clean install \
   -f ../pom.xml \
