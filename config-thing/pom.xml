@@ -4,7 +4,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.github.athingx.athing.aliyun.config</groupId>
+        <groupId>io.github.athingx.athing.aliyun.config</groupId>
         <artifactId>config</artifactId>
         <version>${revision}</version>
     </parent>
@@ -12,8 +12,8 @@
     <name>${project.artifactId}</name>
     <dependencies>
         <dependency>
-            <groupId>com.github.athingx.athing.standard</groupId>
-            <artifactId>athing-standard-thing</artifactId>
+            <groupId>io.github.athingx.athing.standard</groupId>
+            <artifactId>athing-standard-component</artifactId>
             <version>${athing.version}</version>
         </dependency>
     </dependencies>

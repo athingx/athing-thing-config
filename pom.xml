@@ -24,7 +24,7 @@
     </developers>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.github.athingx.athing.aliyun.config</groupId>
+    <groupId>io.github.athingx.athing.aliyun.config</groupId>
     <artifactId>config</artifactId>
     <packaging>pom</packaging>
     <version>${revision}</version>
@@ -95,7 +95,6 @@
 
     <modules>
         <module>config-thing</module>
-        <module>config-thing-boot</module>
         <module>config-thing-impl</module>
     </modules>
 

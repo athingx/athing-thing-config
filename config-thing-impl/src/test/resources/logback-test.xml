@@ -3,11 +3,11 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %5level %msg%n</pattern>　　
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %5level %msg%n</pattern>　　
         </encoder>
     </appender>
 
-    <logger name="com.github.athingx.athing" level="debug">
+    <logger name="io.github.athingx.athing" level="debug">
         <appender-ref ref="STDOUT"/>
     </logger>
 
