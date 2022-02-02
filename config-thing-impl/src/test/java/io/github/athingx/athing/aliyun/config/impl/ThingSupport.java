@@ -2,7 +2,6 @@ package io.github.athingx.athing.aliyun.config.impl;
 
 import io.github.athingx.athing.aliyun.thing.ThingAccess;
 import io.github.athingx.athing.aliyun.thing.ThingBuilder;
-import io.github.athingx.athing.standard.component.ThingCom;
 import io.github.athingx.athing.standard.thing.Thing;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -19,6 +18,8 @@ public class ThingSupport {
 
     // 基础常量
     protected static final Properties properties = loadingProperties(new Properties());
+    protected static final String PRODUCT_ID = $("athing.product.id");
+    protected static final String THING_ID = $("athing.thing.id");
 
     private static final ThingAccess THING_ACCESS = new ThingAccess(
             $("athing.product.id"),
@@ -50,9 +51,7 @@ public class ThingSupport {
 
     private static Thing initPuppetThing() throws Exception {
         final Thing thing = new ThingBuilder(new URI($("athing.thing.server-url")), THING_ACCESS)
-                .load((productId, thingId) -> new ThingCom[]{
-                        new ConfigThingComImpl(new ConfigOption())
-                })
+                .load((productId, thingId) -> new ConfigThingBoot().boot(PRODUCT_ID, THING_ID))
                 .build();
         reconnect(thing);
         return thing;

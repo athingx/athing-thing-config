@@ -17,8 +17,7 @@ public class ConfigThingComTestCase extends ThingSupport {
         final ListenableFuture<Config> fetchF = thing.getUniqueThingCom(ConfigThingCom.class)
                 .fetch(Scope.PRODUCT);
 
-        fetchF.awaitUninterruptible();
-        final Config config = fetchF.getSuccess();
+        final Config config = fetchF.get();
 
         Assert.assertNotNull(config);
         Assert.assertFalse(isBlankString(config.getVersion()));

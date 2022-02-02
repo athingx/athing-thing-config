@@ -73,12 +73,12 @@ class ConfigThingComImpl implements ConfigThingCom, ThingLifeCycle {
         final Thing thing = runtime.getThing();
         final ThingLinker linker = runtime.getThingLinker();
         final String token = linker.generateToken();
-        return caller.call(format("/sys/%s/thing/config/get", path(thing)), new Pull(token))
+        return caller.call(format("/sys/%s/thing/config/get", thing.path()), new Pull(token))
                 .success(reply -> {
                     if (reply.isOk()) {
                         return reply.getData();
                     }
-                    throw new Exception(String.format("fetch config failure! code=%s;message=%s;",
+                    throw new Exception(format("fetch config failure! code=%s;message=%s;",
                             reply.getCode(),
                             reply.getDesc()
                     ));
@@ -94,16 +94,15 @@ class ConfigThingComImpl implements ConfigThingCom, ThingLifeCycle {
             clones = new LinkedHashSet<>(listeners);
         }
 
+        if (clones.isEmpty()) {
+            throw new Exception("none config-listener!");
+        }
+
         // 挨个监听器通知
         for (final ConfigListener listener : clones) {
             listener.apply(config);
         }
 
-    }
-
-    // 获取设备路径
-    private String path(Thing thing) {
-        return format("%s/%s", thing.getProductId(), thing.getThingId());
     }
 
     private LinkOpReply<Void> push(Thing thing, String token, Config config) {
@@ -125,7 +124,7 @@ class ConfigThingComImpl implements ConfigThingCom, ThingLifeCycle {
         final ThingExecutor executor = thing.getThingOp().getThingExecutor();
 
         // 订阅配置推送：PUSH
-        linker.subscribe(format("/sys/%s/thing/config/push", path(thing)), (topic, json) -> {
+        linker.subscribe(format("/sys/%s/thing/config/push", thing.path()), (topic, json) -> {
 
             final Push push = gson.fromJson(json, Push.class);
             final Meta meta = push.getMeta();
@@ -141,7 +140,7 @@ class ConfigThingComImpl implements ConfigThingCom, ThingLifeCycle {
 
 
         // 创建配置获取Call
-        this.caller = linker.<Config>newCaller(format("/sys/%s/thing/config/get_reply", path(thing)), (rTopic, rJson) -> {
+        this.caller = linker.<Config>newCaller(format("/sys/%s/thing/config/get_reply", thing.path()), (rTopic, rJson) -> {
 
             final OpReply<Meta> reply = gson.fromJson(
                     rJson,
