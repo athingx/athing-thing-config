@@ -5,11 +5,7 @@ import io.github.athingx.athing.standard.thing.boot.ThingBoot;
 import io.github.athingx.athing.standard.thing.boot.ThingBootArgument;
 import org.kohsuke.MetaInfServices;
 
-import java.io.File;
-import java.io.FileDescriptor;
 import java.io.InputStream;
-import java.nio.channels.FileChannel;
-import java.nio.file.FileSystem;
 import java.util.Properties;
 
 import static io.github.athingx.athing.standard.thing.boot.ThingBootArgument.Converter.cLong;
@@ -52,7 +48,7 @@ public class ConfigThingBoot implements ThingBoot {
     @Override
     public Properties getProperties() {
         final Properties prop = ThingBoot.super.getProperties();
-        try (final InputStream in = Object.class.getResourceAsStream("config-thing-boot.properties")) {
+        try (final InputStream in = ConfigThingBoot.class.getResourceAsStream("/io/github/athingx/athing/thing/config/aliyun/thing-boot.properties")) {
             if (null != in) {
                 prop.load(in);
             }

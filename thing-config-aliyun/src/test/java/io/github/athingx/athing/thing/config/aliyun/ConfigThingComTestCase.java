@@ -1,5 +1,6 @@
 package io.github.athingx.athing.thing.config.aliyun;
 
+import io.github.athingx.athing.standard.thing.boot.ThingBoot;
 import io.github.athingx.athing.thing.config.Config;
 import io.github.athingx.athing.thing.config.ConfigThingCom;
 import io.github.athingx.athing.thing.config.Scope;
@@ -24,6 +25,16 @@ public class ConfigThingComTestCase extends ThingSupport {
         Assert.assertEquals(Scope.PRODUCT, config.getScope());
         Assert.assertFalse(isBlankString(config.getContent().get()));
 
+    }
+
+    @Test
+    public void test$thing$modular$boot() {
+        final ThingBoot boot = new ConfigThingBoot();
+        Assert.assertEquals("athing", boot.getProperties().getProperty("manufacturer"));
+        Assert.assertEquals("athing-thing-config", boot.getProperties().getProperty("model"));
+        Assert.assertEquals("aliyun", boot.getProperties().getProperty("framework"));
+        Assert.assertEquals("oldmanpushcart@gmail.com", boot.getProperties().getProperty("author"));
+        Assert.assertEquals("${project.version}", boot.getProperties().getProperty("version"));
     }
 
 }

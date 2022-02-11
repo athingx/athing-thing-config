@@ -18,7 +18,7 @@
                 <directory>/src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>config-thing-boot.properties</include>
+                    <include>io/github/athingx/athing/thing/config/aliyun/thing-boot.properties</include>
                 </includes>
             </resource>
         </resources>
