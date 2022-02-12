@@ -30,11 +30,10 @@ public class ConfigThingComTestCase extends ThingSupport {
     @Test
     public void test$thing$modular$boot() {
         final ThingBoot boot = new ConfigThingBoot();
-        Assert.assertEquals("athing", boot.getProperties().getProperty("manufacturer"));
-        Assert.assertEquals("athing-thing-config", boot.getProperties().getProperty("model"));
-        Assert.assertEquals("aliyun", boot.getProperties().getProperty("framework"));
-        Assert.assertEquals("oldmanpushcart@gmail.com", boot.getProperties().getProperty("author"));
-        Assert.assertEquals("${project.version}", boot.getProperties().getProperty("version"));
+        Assert.assertEquals("${project.groupId}", boot.getProperties().getProperty(ThingBoot.PROP_GROUP));
+        Assert.assertEquals("${project.artifactId}", boot.getProperties().getProperty(ThingBoot.PROP_ARTIFACT));
+        Assert.assertEquals("${project.version}", boot.getProperties().getProperty(ThingBoot.PROP_VERSION));
+        Assert.assertEquals("aliyun", boot.getProperties().getProperty(ThingBoot.PROP_PLATFORM_LIMIT));
     }
 
 }
