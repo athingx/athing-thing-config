@@ -1,3 +1,5 @@
+import io.github.athingx.athing.thing.config.aliyun.ThingConfigBoot;
+
 module io.github.athingx.athing.thing.config.aliyun {
 
     requires io.github.athingx.athing.thing.config;
@@ -10,6 +12,6 @@ module io.github.athingx.athing.thing.config.aliyun {
 
     opens io.github.athingx.athing.thing.config.aliyun to com.google.gson;
     opens io.github.athingx.athing.thing.config.aliyun.domain to com.google.gson;
-    provides io.github.athingx.athing.standard.thing.boot.ThingBoot with io.github.athingx.athing.thing.config.aliyun.ConfigThingBoot;
+    provides io.github.athingx.athing.standard.thing.boot.ThingBoot with ThingConfigBoot;
 
 }

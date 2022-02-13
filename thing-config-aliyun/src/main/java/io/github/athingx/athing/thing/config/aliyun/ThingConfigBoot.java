@@ -17,12 +17,12 @@ import static io.github.athingx.athing.standard.thing.boot.ThingBootArgument.Con
  * </p>
  */
 @MetaInfServices
-public class ConfigThingBoot implements ThingBoot {
+public class ThingConfigBoot implements ThingBoot {
 
     @Override
     public ThingCom[] boot(String productId, String thingId, ThingBootArgument argument) {
         return new ThingCom[]{
-                new ConfigThingComImpl(merge(
+                new ThingConfigComImpl(merge(
                         new ConfigOption(),
                         argument,
                         ThingBootArgument.parse(System.getProperty("athing.aliyun.config.boot"))
@@ -48,7 +48,7 @@ public class ConfigThingBoot implements ThingBoot {
     @Override
     public Properties getProperties() {
         final Properties prop = ThingBoot.super.getProperties();
-        try (final InputStream in = ConfigThingBoot.class.getResourceAsStream("/io/github/athingx/athing/thing/config/aliyun/thing-boot.properties")) {
+        try (final InputStream in = ThingConfigBoot.class.getResourceAsStream("/io/github/athingx/athing/thing/config/aliyun/thing-boot.properties")) {
             if (null != in) {
                 prop.load(in);
             }

@@ -6,7 +6,7 @@ import io.github.oldmanpushcart.jpromisor.ListenableFuture;
 /**
  * 配置组件
  */
-public interface ConfigThingCom extends ThingCom {
+public interface ThingConfigCom extends ThingCom {
 
     /**
      * 添加监听器

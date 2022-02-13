@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import io.github.athingx.athing.thing.config.Config;
 import io.github.athingx.athing.thing.config.ConfigListener;
-import io.github.athingx.athing.thing.config.ConfigThingCom;
+import io.github.athingx.athing.thing.config.ThingConfigCom;
 import io.github.athingx.athing.thing.config.Scope;
 import io.github.athingx.athing.thing.config.aliyun.domain.Meta;
 import io.github.athingx.athing.thing.config.aliyun.domain.Pull;
@@ -30,7 +30,7 @@ import static io.github.athingx.athing.aliyun.thing.runtime.linker.LinkOpReply.A
 import static java.lang.Integer.parseInt;
 import static java.lang.String.format;
 
-class ConfigThingComImpl implements ConfigThingCom, ThingLifeCycle {
+class ThingConfigComImpl implements ThingConfigCom, ThingLifeCycle {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Gson gson = GsonUtils.gson;
@@ -42,7 +42,7 @@ class ConfigThingComImpl implements ConfigThingCom, ThingLifeCycle {
 
     private LinkCaller<Config> caller;
 
-    public ConfigThingComImpl(ConfigOption option) {
+    public ThingConfigComImpl(ConfigOption option) {
         this.option = option;
     }
 
