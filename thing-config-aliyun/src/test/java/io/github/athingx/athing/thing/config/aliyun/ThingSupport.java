@@ -3,6 +3,7 @@ package io.github.athingx.athing.thing.config.aliyun;
 import io.github.athingx.athing.aliyun.thing.ThingBuilder;
 import io.github.athingx.athing.aliyun.thing.runtime.access.ThingAccess;
 import io.github.athingx.athing.standard.thing.Thing;
+import io.github.athingx.athing.standard.thing.boot.ThingBootArgument;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
@@ -51,7 +52,7 @@ public class ThingSupport {
 
     private static Thing initPuppetThing() throws Exception {
         final Thing thing = new ThingBuilder(new URI($("athing.thing.server-url")), THING_ACCESS)
-                .load((productId, thingId) -> new ThingConfigBoot().boot(PRODUCT_ID, THING_ID))
+                .load((productId, thingId) -> new ThingConfigBoot().boot(PRODUCT_ID, THING_ID, ThingBootArgument.parse("connect_timeout_ms=60000&timeout_ms=180000")))
                 .build();
         reconnect(thing);
         return thing;

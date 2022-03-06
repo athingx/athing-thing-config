@@ -13,7 +13,7 @@ import static io.github.athingx.athing.standard.thing.boot.ThingBootArgument.Con
 /**
  * 设备配置组件引导程序
  * <p>
- * {@code -Dathing.aliyun.config.boot="timeout=180000&connect-timeout=60000"}
+ * {@code timeout_ms=180000&connect_timeout_ms=60000}
  * </p>
  */
 @MetaInfServices
@@ -24,8 +24,7 @@ public class ThingConfigBoot implements ThingBoot {
         return new ThingCom[]{
                 new ThingConfigComImpl(merge(
                         new ConfigOption(),
-                        argument,
-                        ThingBootArgument.parse(System.getProperty("athing.aliyun.config.boot"))
+                        argument
                 ))
         };
     }
@@ -35,11 +34,11 @@ public class ThingConfigBoot implements ThingBoot {
             return option;
         }
         for (final ThingBootArgument argument : arguments) {
-            if (argument.hasArguments("timeout")) {
-                option.setTimeoutMs(argument.getArgument("timeout", cLong));
+            if (argument.hasArguments("timeout_ms")) {
+                option.setTimeoutMs(argument.getArgument("timeout_ms", cLong));
             }
-            if (argument.hasArguments("connect-timeout")) {
-                option.setConnectTimeoutMs(argument.getArgument("connect-timeout", cLong));
+            if (argument.hasArguments("connect_timeout_ms")) {
+                option.setConnectTimeoutMs(argument.getArgument("connect_timeout_ms", cLong));
             }
         }
         return option;
