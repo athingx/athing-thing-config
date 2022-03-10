@@ -3,7 +3,6 @@ package io.github.athingx.athing.thing.config.aliyun;
 import io.github.athingx.athing.standard.component.ThingCom;
 import io.github.athingx.athing.standard.thing.boot.ThingBoot;
 import io.github.athingx.athing.standard.thing.boot.ThingBootArgument;
-import org.kohsuke.MetaInfServices;
 
 import java.io.InputStream;
 import java.util.Properties;
@@ -16,7 +15,6 @@ import static io.github.athingx.athing.standard.thing.boot.ThingBootArgument.Con
  * {@code timeout_ms=180000&connect_timeout_ms=60000}
  * </p>
  */
-@MetaInfServices
 public class ThingConfigBoot implements ThingBoot {
 
     @Override
