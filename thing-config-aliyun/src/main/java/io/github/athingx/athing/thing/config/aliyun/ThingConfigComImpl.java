@@ -94,10 +94,6 @@ class ThingConfigComImpl implements ThingConfigCom, ThingLifeCycle {
             clones = new LinkedHashSet<>(listeners);
         }
 
-        if (clones.isEmpty()) {
-            throw new Exception("none config-listener!");
-        }
-
         // 挨个监听器通知
         for (final ConfigListener listener : clones) {
             listener.apply(config);
@@ -105,7 +101,11 @@ class ThingConfigComImpl implements ThingConfigCom, ThingLifeCycle {
 
     }
 
-    private LinkOpReply<Void> push(Thing thing, String token, Config config) {
+    private LinkOpReply<Void> replyForPushApply(Thing thing, String token, Config config) {
+        if (listeners.isEmpty()) {
+            logger.warn("{}/config give up: none-listener, token={};version={};", thing, token, config.getVersion());
+            return LinkOpReply.failure(token, ALINK_REPLY_PROCESS_ERROR, "none-listener");
+        }
         try {
             apply(config);
             logger.info("{}/config push apply success, token={};version={};", thing, token, config.getVersion());
@@ -117,9 +117,8 @@ class ThingConfigComImpl implements ThingConfigCom, ThingLifeCycle {
     }
 
     @Override
-    public void onLoaded() throws Exception {
+    public void onLoaded(Thing thing) throws Exception {
 
-        final Thing thing = runtime.getThing();
         final ThingLinker linker = runtime.getThingLinker();
         final ThingExecutor executor = thing.getThingOp().getThingExecutor();
 
@@ -129,10 +128,8 @@ class ThingConfigComImpl implements ThingConfigCom, ThingLifeCycle {
             final Push push = gson.fromJson(json, Push.class);
             final Meta meta = push.getMeta();
             final String token = push.getToken();
-            final String rTopic = topic + "_reply";
-            logger.info("{}/config receive push, token={};version={};", thing, token, meta.getVersion());
 
-            linker.publish(rTopic, push(thing, token, new ConfigImpl(meta, executor, option)))
+            linker.publish(topic + "_reply", replyForPushApply(thing, token, new ConfigImpl(meta, executor, option)))
                     .onSuccess(v -> logger.info("{}/config push reply success, token={};version={};", thing, token, meta.getVersion()))
                     .onFailure(e -> logger.warn("{}/config push reply failure, token={};version={};", thing, token, meta.getVersion(), e));
 
