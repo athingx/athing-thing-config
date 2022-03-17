@@ -2,14 +2,6 @@ package io.github.athingx.athing.thing.config.aliyun;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import io.github.athingx.athing.thing.config.Config;
-import io.github.athingx.athing.thing.config.ConfigListener;
-import io.github.athingx.athing.thing.config.ThingConfigCom;
-import io.github.athingx.athing.thing.config.Scope;
-import io.github.athingx.athing.thing.config.aliyun.domain.Meta;
-import io.github.athingx.athing.thing.config.aliyun.domain.Pull;
-import io.github.athingx.athing.thing.config.aliyun.domain.Push;
-import io.github.athingx.athing.thing.config.aliyun.util.GsonUtils;
 import io.github.athingx.athing.aliyun.thing.runtime.ThingRuntime;
 import io.github.athingx.athing.aliyun.thing.runtime.linker.LinkCaller;
 import io.github.athingx.athing.aliyun.thing.runtime.linker.LinkOpReply;
@@ -19,12 +11,20 @@ import io.github.athingx.athing.standard.thing.ThingLifeCycle;
 import io.github.athingx.athing.standard.thing.boot.Inject;
 import io.github.athingx.athing.standard.thing.op.OpReply;
 import io.github.athingx.athing.standard.thing.op.executor.ThingExecutor;
+import io.github.athingx.athing.thing.config.Config;
+import io.github.athingx.athing.thing.config.ConfigListener;
+import io.github.athingx.athing.thing.config.Scope;
+import io.github.athingx.athing.thing.config.ThingConfigCom;
+import io.github.athingx.athing.thing.config.aliyun.domain.Meta;
+import io.github.athingx.athing.thing.config.aliyun.domain.Pull;
+import io.github.athingx.athing.thing.config.aliyun.domain.Push;
+import io.github.athingx.athing.thing.config.aliyun.util.GsonUtils;
 import io.github.oldmanpushcart.jpromisor.ListenableFuture;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static io.github.athingx.athing.aliyun.thing.runtime.linker.LinkOpReply.ALINK_REPLY_PROCESS_ERROR;
 import static java.lang.Integer.parseInt;
@@ -35,7 +35,7 @@ class ThingConfigComImpl implements ThingConfigCom, ThingLifeCycle {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Gson gson = GsonUtils.gson;
     private final ConfigOption option;
-    private final Set<ConfigListener> listeners = new LinkedHashSet<>();
+    private final Set<ConfigListener> listeners = new ConcurrentHashMap<ConfigListener, Object>().keySet();
 
     @Inject
     private ThingRuntime runtime;
@@ -48,16 +48,12 @@ class ThingConfigComImpl implements ThingConfigCom, ThingLifeCycle {
 
     @Override
     public void appendListener(ConfigListener listener) {
-        synchronized (listeners) {
-            listeners.add(listener);
-        }
+        listeners.add(listener);
     }
 
     @Override
     public void removeListener(ConfigListener listener) {
-        synchronized (listeners) {
-            listeners.remove(listener);
-        }
+        listeners.remove(listener);
     }
 
     @Override
@@ -86,19 +82,10 @@ class ThingConfigComImpl implements ThingConfigCom, ThingLifeCycle {
     }
 
     // 应用配置到配置监听器
-    private synchronized void apply(Config config) throws Exception {
-
-        // 先克隆一份监听器，避免阻塞
-        final Set<ConfigListener> clones;
-        synchronized (listeners) {
-            clones = new LinkedHashSet<>(listeners);
-        }
-
-        // 挨个监听器通知
-        for (final ConfigListener listener : clones) {
+    private void apply(Config config) throws Exception {
+        for (final ConfigListener listener : listeners) {
             listener.apply(config);
         }
-
     }
 
     private LinkOpReply<Void> replyForPushApply(Thing thing, String token, Config config) {

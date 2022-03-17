@@ -1,9 +1,8 @@
 package io.github.athingx.athing.thing.config.aliyun;
 
-import io.github.athingx.athing.standard.thing.boot.ThingBoot;
 import io.github.athingx.athing.thing.config.Config;
-import io.github.athingx.athing.thing.config.ThingConfigCom;
 import io.github.athingx.athing.thing.config.Scope;
+import io.github.athingx.athing.thing.config.ThingConfigCom;
 import io.github.oldmanpushcart.jpromisor.ListenableFuture;
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,15 +24,6 @@ public class ThingConfigComTestCase extends ThingSupport {
         Assert.assertEquals(Scope.PRODUCT, config.getScope());
         Assert.assertFalse(isBlankString(config.getContent().get()));
 
-    }
-
-    @Test
-    public void test$thing$modular$boot() {
-        final ThingBoot boot = new ThingConfigBoot();
-        Assert.assertEquals("${project.groupId}", boot.getProperties().getProperty(ThingBoot.PROP_GROUP));
-        Assert.assertEquals("${project.artifactId}", boot.getProperties().getProperty(ThingBoot.PROP_ARTIFACT));
-        Assert.assertEquals("${project.version}", boot.getProperties().getProperty(ThingBoot.PROP_VERSION));
-        Assert.assertEquals("aliyun", boot.getProperties().getProperty(ThingBoot.PROP_PLATFORM_LIMIT));
     }
 
 }
