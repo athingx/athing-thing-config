@@ -8,7 +8,7 @@ import io.github.athingx.athing.aliyun.thing.runtime.linker.LinkOpReply;
 import io.github.athingx.athing.aliyun.thing.runtime.linker.ThingLinker;
 import io.github.athingx.athing.standard.thing.Thing;
 import io.github.athingx.athing.standard.thing.ThingLifeCycle;
-import io.github.athingx.athing.standard.thing.boot.Inject;
+import io.github.athingx.athing.standard.thing.boot.ThInject;
 import io.github.athingx.athing.standard.thing.op.OpReply;
 import io.github.athingx.athing.standard.thing.op.executor.ThingExecutor;
 import io.github.athingx.athing.thing.config.Config;
@@ -37,7 +37,7 @@ class ThingConfigComImpl implements ThingConfigCom, ThingLifeCycle {
     private final ConfigOption option;
     private final Set<ConfigListener> listeners = new ConcurrentHashMap<ConfigListener, Object>().keySet();
 
-    @Inject
+    @ThInject
     private ThingRuntime runtime;
 
     private LinkCaller<Config> caller;
