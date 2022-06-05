@@ -34,7 +34,7 @@ public class DefaultThingConfigCom implements ThingConfigCom, ThingComListener {
     private final Gson gson = GsonUtils.gson;
     private final ConfigOption option;
     private final ThingRuntime runtime;
-    private final Set<ConfigListener> listeners = new ConcurrentHashMap<ConfigListener, Object>().keySet();
+    private final Set<ConfigListener> listeners = ConcurrentHashMap.newKeySet();
 
     private LinkCaller<Config> caller;
 
