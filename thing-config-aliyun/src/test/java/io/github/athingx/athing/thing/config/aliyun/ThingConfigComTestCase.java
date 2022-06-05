@@ -14,8 +14,7 @@ public class ThingConfigComTestCase extends ThingSupport {
     @Test
     public void test$thing$config$fetch$success() throws Exception {
 
-        final ListenableFuture<Config> fetchF = thing.getUniqueThingCom(ThingConfigCom.class)
-                .fetch(Scope.PRODUCT);
+        final ListenableFuture<Config> fetchF = thingConfigCom.fetch(Scope.PRODUCT);
 
         final Config config = fetchF.get();
 

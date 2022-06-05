@@ -7,10 +7,9 @@ import io.github.athingx.athing.aliyun.thing.runtime.linker.LinkCaller;
 import io.github.athingx.athing.aliyun.thing.runtime.linker.LinkOpReply;
 import io.github.athingx.athing.aliyun.thing.runtime.linker.ThingLinker;
 import io.github.athingx.athing.standard.thing.Thing;
-import io.github.athingx.athing.standard.thing.ThingLifeCycle;
-import io.github.athingx.athing.standard.thing.boot.ThInject;
+import io.github.athingx.athing.standard.thing.ThingComListener;
 import io.github.athingx.athing.standard.thing.op.OpReply;
-import io.github.athingx.athing.standard.thing.op.executor.ThingExecutor;
+import io.github.athingx.athing.standard.thing.executor.ThingExecutor;
 import io.github.athingx.athing.thing.config.Config;
 import io.github.athingx.athing.thing.config.ConfigListener;
 import io.github.athingx.athing.thing.config.Scope;
@@ -28,22 +27,20 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static io.github.athingx.athing.aliyun.thing.runtime.linker.LinkOpReply.ALINK_REPLY_PROCESS_ERROR;
 import static java.lang.Integer.parseInt;
-import static java.lang.String.format;
 
-class ThingConfigComImpl implements ThingConfigCom, ThingLifeCycle {
+public class DefaultThingConfigCom implements ThingConfigCom, ThingComListener {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Gson gson = GsonUtils.gson;
     private final ConfigOption option;
+    private final ThingRuntime runtime;
     private final Set<ConfigListener> listeners = new ConcurrentHashMap<ConfigListener, Object>().keySet();
-
-    @ThInject
-    private ThingRuntime runtime;
 
     private LinkCaller<Config> caller;
 
-    public ThingConfigComImpl(ConfigOption option) {
+    public DefaultThingConfigCom(Thing thing, ConfigOption option) {
         this.option = option;
+        this.runtime = ThingRuntime.getInstance(thing);
     }
 
     @Override
@@ -69,12 +66,12 @@ class ThingConfigComImpl implements ThingConfigCom, ThingLifeCycle {
         final Thing thing = runtime.getThing();
         final ThingLinker linker = runtime.getThingLinker();
         final String token = linker.generateToken();
-        return caller.call(format("/sys/%s/thing/config/get", thing.path()), new Pull(token))
+        return caller.call("/sys/%s/thing/config/get".formatted(thing.getPath()), new Pull(token))
                 .success(reply -> {
                     if (reply.isOk()) {
                         return reply.getData();
                     }
-                    throw new Exception(format("fetch config failure! code=%s;message=%s;",
+                    throw new Exception("fetch config failure! code=%s;message=%s;".formatted(
                             reply.getCode(),
                             reply.getDesc()
                     ));
@@ -107,10 +104,10 @@ class ThingConfigComImpl implements ThingConfigCom, ThingLifeCycle {
     public void onLoaded(Thing thing) throws Exception {
 
         final ThingLinker linker = runtime.getThingLinker();
-        final ThingExecutor executor = thing.getThingOp().getThingExecutor();
+        final ThingExecutor executor = thing.getExecutor();
 
         // 订阅配置推送：PUSH
-        linker.subscribe(format("/sys/%s/thing/config/push", thing.path()), (topic, json) -> {
+        linker.subscribe("/sys/%s/thing/config/push".formatted(thing.getPath()), (topic, json) -> {
 
             final Push push = gson.fromJson(json, Push.class);
             final Meta meta = push.getMeta();
@@ -124,7 +121,7 @@ class ThingConfigComImpl implements ThingConfigCom, ThingLifeCycle {
 
 
         // 创建配置获取Call
-        this.caller = linker.<Config>newCaller(format("/sys/%s/thing/config/get_reply", thing.path()), (rTopic, rJson) -> {
+        this.caller = linker.<Config>newCaller("/sys/%s/thing/config/get_reply".formatted(thing.getPath()), (rTopic, rJson) -> {
 
             final OpReply<Meta> reply = gson.fromJson(
                     rJson,

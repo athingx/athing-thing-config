@@ -3,7 +3,7 @@ package io.github.athingx.athing.thing.config.aliyun;
 import io.github.athingx.athing.aliyun.thing.ThingBuilder;
 import io.github.athingx.athing.aliyun.thing.runtime.access.ThingAccess;
 import io.github.athingx.athing.standard.thing.Thing;
-import io.github.athingx.athing.standard.thing.boot.ThingBootArgument;
+import io.github.athingx.athing.thing.config.ThingConfigCom;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
@@ -12,6 +12,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static java.lang.String.format;
 
@@ -29,6 +31,7 @@ public class ThingSupport {
     );
 
     protected static Thing thing;
+    protected static ThingConfigCom thingConfigCom;
 
     @BeforeClass
     public static void initialization() throws Exception {
@@ -52,9 +55,10 @@ public class ThingSupport {
 
     private static Thing initPuppetThing() throws Exception {
         final Thing thing = new ThingBuilder(new URI($("athing.thing.server-url")), THING_ACCESS)
-                .load((productId, thingId) -> new ThingConfigBoot().boot(PRODUCT_ID, THING_ID, ThingBootArgument.parse("connect_timeout_ms=60000&timeout_ms=180000")))
+                .executor(Executors.newFixedThreadPool(20))
                 .build();
         reconnect(thing);
+        thing.load(thingConfigCom = new DefaultThingConfigCom(thing, new ConfigOption()));
         return thing;
     }
 
